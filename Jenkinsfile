@@ -1,4 +1,4 @@
 node {
-    checkout scm 
-    /* .. snip .. */
+    checkout scm
+    sh 'echo "Hello World!"'
 }
