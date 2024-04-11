@@ -2,6 +2,7 @@ properties([parameters([string(defaultValue: 'Hello', description: 'How should I
 node('node1') {
     checkout scm
     stage('Build') {
-        sh 'docker ps'
+        sh 'pwd'
+        sh 'docker build .'
     }
 }
