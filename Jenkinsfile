@@ -2,7 +2,10 @@ properties([parameters([string(defaultValue: 'Hello', description: 'How should I
 node('node1') {
     checkout scm
     stage('Build') {
-        sh 'pwd'
-        sh 'docker build .'
+        sh 'docker build . -t xitrin-nginx'
+        sh 'docker images'
+    }
+    stage('Clean') {
+        sh 'docker images'
     }
 }
