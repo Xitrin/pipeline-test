@@ -19,9 +19,8 @@ node('node1') {
         sh 'docker images'
     }
     stage('Test') {
-        sh "docker run --rm -d --name ${params.Tag}-test ${params.Tag};
-            ip=$(docker inspect ${params.Tag}-test | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress');
-            echo $ip"
+        sh "docker run --rm -d --name ${params.Tag}-test ${params.Tag}"
+        sh "ip=$(docker inspect ${params.Tag}-test | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress'); echo $ip"
     }
     stage('Upload') {
         sh "docker save -o ${params.Tag}-${env.BUILD_ID}.img ${params.Tag}"
