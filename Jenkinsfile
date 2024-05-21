@@ -15,8 +15,8 @@ properties(
 node('node1') {
     checkout scm
     stage('Build') {
-        sh "docker build . -t ${params.Tag};
-            docker images"
+        sh "docker build . -t ${params.Tag}"
+        sh 'docker images'
     }
     stage('Test') {
         sh "docker run --rm -d --name ${params.Tag}-test ${params.Tag};
@@ -28,8 +28,8 @@ node('node1') {
         archiveArtifacts artifacts: "${params.Tag}-${env.BUILD_ID}.img"
     }
     stage('Clean') {
-        sh "docker stop ${params.Tag}-test;
-            docker rmi ${params.Tag}"
+        sh "docker stop ${params.Tag}-test"
+        sh "docker rmi ${params.Tag}"
         cleanWs()
     }
 }
