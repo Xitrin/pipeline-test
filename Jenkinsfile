@@ -15,15 +15,21 @@ properties(
 node('node1') {
     checkout scm
     stage('Build') {
-        sh "docker build . -t ${params.Tag}"
-        sh 'docker images'
+        sh "docker build . -t ${params.Tag};
+            docker images"
+    }
+    stage('Test') {
+        sh "docker run --rm -d --name ${params.Tag}-test ${params.Tag};
+            ip=$(docker inspect ${params.Tag}-test | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress');
+            echo $ip"
     }
     stage('Upload') {
-        sh "docker save -o ${params.Tag}.img ${params.Tag}"
-        archiveArtifacts artifacts: "${params.Tag}.img"
+        sh "docker save -o ${params.Tag}-${env.BUILD_ID}.img ${params.Tag}"
+        archiveArtifacts artifacts: "${params.Tag}-${env.BUILD_ID}.img"
     }
     stage('Clean') {
-        sh "docker rmi ${params.Tag}"
+        sh "docker stop ${params.Tag}-test;
+            docker rmi ${params.Tag}"
         cleanWs()
     }
 }

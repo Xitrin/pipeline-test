@@ -1,0 +1,34 @@
+properties(
+    [
+        parameters(
+            [
+                string(
+                    name: 'image-name',
+                    description: 'What is our image name?',
+                )
+            ]
+        )
+    ]
+) // end of properties
+
+node('node1') {
+    checkout scm
+    stage('Download') {
+        sh "docker build . -t ${params.image-name};
+            docker images"
+    }
+    // stage('Deploy') {
+    //     sh "docker run --rm -d --name ${params.Tag}-test ${params.Tag};
+    //         ip=$(docker inspect ${params.Tag}-test | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress');
+    //         echo $ip"
+    // }
+    // stage('Test') {
+    //     sh "docker save -o ${params.Tag}.img ${params.Tag}"
+    //     archiveArtifacts artifacts: "${params.Tag}.img"
+    // }
+    // stage('Clean') {
+    //     sh "docker stop ${params.image-name}-test;
+    //         docker rmi ${params.image-name}"
+    //     cleanWs()
+    // }
+}
