@@ -3,7 +3,7 @@ properties(
         parameters(
             [
                 string(
-                    name: 'image-name',
+                    name: 'image_name',
                     description: 'What is our image name?',
                 )
             ]
@@ -14,7 +14,7 @@ properties(
 node('node1') {
     checkout scm
     stage('Download') {
-        sh "echo ${params.image-name}"
+        sh "echo ${params.image_name}"
     }
     // stage('Deploy') {
     //     sh "docker run --rm -d --name ${params.Tag}-test ${params.Tag};
