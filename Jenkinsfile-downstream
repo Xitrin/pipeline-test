@@ -15,7 +15,7 @@ node('node1') {
     checkout scm
     stage('Download') {
         sh "curl -O http://jenkins:8080/job/pipeline1/${params.build}/artifact/xitrin-nginx-${params.build}.img "
-        sh "docker load -i xitrin-nginx-${params.build}"
+        sh "docker load -i xitrin-nginx-${params.build}.img"
     }
     stage('Deploy') {
         sh "docker run --rm -d --name xitrin-nginx-${params.build} xitrin-nginx-${params.build}"
