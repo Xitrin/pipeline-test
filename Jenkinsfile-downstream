@@ -14,7 +14,7 @@ properties(
 node('node1') {
     checkout scm
     stage('Download') {
-        copyArtifacts(projectName: 'pipeline1', filter:"xitrin-nginx-${params.build}", optional: true);
+        copyArtifacts(projectName: 'pipeline1', selector: specific("${params.build}"));
         sh "docker load -i xitrin-nginx-${params.build}.img"
     }
     stage('Deploy') {
