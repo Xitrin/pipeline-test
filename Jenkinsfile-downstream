@@ -14,8 +14,7 @@ properties(
 node('node1') {
     checkout scm
     stage('Download') {
-        sh "docker build . -t ${params.image-name};
-            docker images"
+        sh echo ${params.image-name}
     }
     // stage('Deploy') {
     //     sh "docker run --rm -d --name ${params.Tag}-test ${params.Tag};
