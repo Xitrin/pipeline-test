@@ -32,6 +32,6 @@ node('node1') {
         cleanWs()
     }
     stage('Downstream') {
-        build job: 'pipeline2', parameters: [string(name: 'image_name', value: "${params.Tag}-${env.BUILD_ID}.img")]
+        build job: 'pipeline2', parameters: [string(name: 'build', value: "${env.BUILD_ID}")]
     }
 }
