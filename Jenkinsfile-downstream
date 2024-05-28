@@ -18,7 +18,7 @@ node('node1') {
         sh "docker load -i xitrin-nginx-${params.build}.img"
     }
     stage('Deploy') {
-        sh "docker run --rm -d --name xitrin-nginx-${params.build} xitrin-nginx-${params.build}"
+        sh "docker run --rm -d --name xitrin-nginx-${params.build} xitrin-nginx"
         sh "ip=\$(docker inspect xitrin-nginx-${params.build} | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress'); echo $ip > ip.txt"
     }
     stage('Test') {
@@ -26,7 +26,7 @@ node('node1') {
     }
     stage('Clean') {
         sh "docker stop xitrin-nginx-${params.build}"
-        sh  "docker rmi xitrin-nginx-${params.build}"
+        sh "docker rmi xitrin-nginx"
         cleanWs()
     }
 }
