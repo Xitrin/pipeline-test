@@ -31,4 +31,7 @@ node('node1') {
         sh "docker rmi ${params.Tag}"
         cleanWs()
     }
+    stage('Downstream') {
+        build job: 'pipeline2', parameters: [string(name: 'image_name', value: "${params.Tag}-${env.BUILD_ID}.img")]
+    }
 }
