@@ -18,16 +18,16 @@ node('node1') {
         sh "docker load xitrin-nginx-${params.build}"
     }
     stage('Deploy') {
-        sh "docker run --rm -d --name xitrin-nginx-${params.build} xitrin-nginx-${params.build};
-            ip=\$(docker inspect xitrin-nginx-${params.build} | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress');
-            echo $ip > ip.txt"
+        sh "docker run --rm -d --name xitrin-nginx-${params.build} xitrin-nginx-${params.build}"
+        sh "ip=\$(docker inspect xitrin-nginx-${params.build} | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress')"
+        sh  "echo $ip > ip.txt"
     }
     stage('Test') {
         sh "ip=\$(cat ip.txt) curl \$ip"
     }
     stage('Clean') {
-        sh "docker stop xitrin-nginx-${params.build};
-            docker rmi xitrin-nginx-${params.build}"
+        sh "docker stop xitrin-nginx-${params.build}"
+        sh  "docker rmi xitrin-nginx-${params.build}"
         cleanWs()
     }
 }
