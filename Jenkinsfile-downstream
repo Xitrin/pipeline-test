@@ -22,7 +22,7 @@ node('node1') {
         sh "ip=\$(docker inspect xitrin-nginx-${params.build} | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress'); echo \$ip > ip.txt"
     }
     stage('Test') {
-        sh "ip=\$(cat ip.txt) curl \$ip"
+        sh "ip=\$(cat ip.txt); curl \$ip"
     }
     stage('Clean') {
         sh "docker stop xitrin-nginx-${params.build}"
